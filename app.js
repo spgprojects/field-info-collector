@@ -93,9 +93,18 @@ let render = async function () {
   if (tab === "report") return renderReport();
   if (tab === "export") return renderExport();
 };
+/* one bulk read for the whole register instead of one read per asset per slot */
+const allEntries = () => new Promise((res) => {
+  const st = tx("readonly"); const ks = st.getAllKeys(); const vs = st.getAll();
+  vs.onsuccess = () => { const out = {}; ks.result.forEach((k, i) => (out[k] = vs.result[i])); res(out); };
+});
 async function statusMap() {
-  const m = {};
-  for (const a of reg.assets) m[a.id] = statusOf(await captures(a.id));
+  const all = await allEntries(), m = {};
+  for (const a of reg.assets) {
+    const c = { slots: {}, data: all[`${a.id}:data`] || {} };
+    for (const s of SLOTS()) c.slots[s.k] = all[`${a.id}:${s.k}`];
+    m[a.id] = statusOf(c);
+  }
   return m;
 }
 
