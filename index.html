@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f2937">
+<title>Field Info-Collector</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <button class="back" id="back" hidden aria-label="Back">‹</button>
+  <div class="brand"><b id="title">Field Info-Collector</b><span id="subtitle"></span></div>
+  <button class="icon" id="menu" aria-label="Menu">⋮</button>
+</header>
+
+<main id="view"></main>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="areas" class="on">Areas</button>
+  <button data-tab="search">Search</button>
+  <button data-tab="report">Coverage</button>
+  <button data-tab="export">Export</button>
+</nav>
+
+<dialog id="menuDlg">
+  <h3>Field Info-Collector</h3>
+  <p class="muted">Schema-based picture and data collection. Local-only: every photo and every field stays on this device until you export the zip.</p>
+  <button id="importBtn">Import a configuration (JSON)</button>
+  <button id="resetBtn" class="danger">Erase records and reload the sample</button>
+  <button id="closeMenu">Close</button>
+</dialog>
+
+<script src="jszip.min.js"></script>
+<script src="seed.js"></script>
+<script src="app.js"></script>
+<script>
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+</script>
+</body>
+</html>
